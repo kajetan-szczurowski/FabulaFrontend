@@ -1,4 +1,4 @@
-import CharacterNumberBar from './CharacterNumberBar';
+import CharacterNumberBar from '../CombatBox/CharacterNumberBar';
 import { characterMapSignal } from './CharacterBox';
 import {useState, ChangeEvent} from 'react'
 import { useSocket } from '../../providers/SocketProvider'

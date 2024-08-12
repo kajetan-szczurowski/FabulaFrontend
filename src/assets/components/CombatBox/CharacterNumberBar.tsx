@@ -1,9 +1,9 @@
-import ProgressBar from './ProgressBar'
+import ProgressBar from '../CharacterBox/ProgressBar'
 import { usersDataState } from '../../states/GlobalState'
 
 export default function CharacterNumberBar({graphicURL, maxValue, currentValue, barForegroundClassName, label, socketEditKey, id} : props) {
 const authorized = checkAuthorization(id, label);
-console.log(label, authorized);
+// console.log(label, authorized);
 return(
     <div className='hp-list-item'>
         <img src = {graphicURL} className = 'hp-list-img'/>

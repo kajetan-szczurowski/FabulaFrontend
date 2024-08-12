@@ -21,7 +21,6 @@ export default function ProgressBar({widthRem, value, maxValue, foregroundClassN
   
           <div className="item-value progress-bar-text">{`${value}/${maxValue}`}</div>
       </div>
-      {authorization && <EditDialog/>}
       </>
     )
 
