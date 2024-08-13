@@ -16,6 +16,7 @@ export type characterDataType = {
   skills: skillType[],
   spells: spellType[]
   rolls: characterBasicValueType[],
+  relations: relationType[]
 
 }
 
@@ -41,3 +42,11 @@ export type spellType = characterBasicValueType & {
   duration: string,
   magicCost: string
 }
+
+export type relationType = {
+  label: string,
+  id: string,
+  emotions: emotionForceType[] 
+}
+
+export type emotionForceType = 0 | 1 | 2;

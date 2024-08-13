@@ -779,6 +779,15 @@ span[class^="rolls-family-visibility-"]{
   -moz-transform: rotate(-90deg);
 }
 
+.relation-dip-switches-wrapper{
+  display: flex;
+}
+
+.relation-dip-switch{
+  display: flex;
+  flex-direction: column;
+}
+
 @media (max-width: 800px){
   body {
     overflow-y: auto;

@@ -16,6 +16,7 @@ import { useSocket } from '../../providers/SocketProvider';
 import Skills from './CharacterWindow';
 import { translate } from '../../Dictionaries/translate';
 import CharacterWindow from './CharacterWindow';
+import Relations from './Relations';
 
 const chosenCharacterStorageKey = 'lets-roll-one-chosenID';
 const charactersMapStorageKey = 'lets-roll-one-charactersMap';
@@ -106,6 +107,7 @@ export default function CharacterBox() {
               <NavigationButton state = 'EQ' label = 'EQ'/>
               <NavigationButton state = 'skills' label = 'skills'/>
               <NavigationButton state = 'spells' label = 'spells'/>
+              <NavigationButton state = 'relations' label = 'relations'/>
 
 
               {/* <NavigationButton state = 'rolls'/> */}
@@ -122,6 +124,7 @@ export default function CharacterBox() {
             {openWindow === 'EQ' && <CharacterWindow data = {characterData.value?.EQ || []} attributeGroup={openWindow}/>}
             {openWindow === 'skills' && <CharacterWindow data = {characterData.value?.skills || []} attributeGroup={openWindow}/>}
             {openWindow === 'spells' && <CharacterWindow data = {characterData.value?.spells || []} attributeGroup={openWindow}/>}
+            {openWindow === 'relations' && <Relations data = {characterData.value?.relations || []} />}
             {/* {openWindow === 'spells' && <Spells/>} */}
             {/* {openWindow === 'combat' && <Combat/>} */}
             {/* {openWindow === 'mapAuthorizations' && <MapAuthorizations/>} */}
