@@ -16,7 +16,6 @@ export default function Clock({segmentsNumber, completedSegments, id, label}: pr
   const userIsGM = usersDataState.value.isGM;
   const userID = usersDataState.value.userID;
   const socket = useSocket();
-  console.log(segmentsNumber, completedSegments, id, label)
 
   setTimeout(() => drawClocks(clockID, segmentsNumber, completedSegments), 100);
   return (
