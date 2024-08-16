@@ -26,7 +26,7 @@ export default function EditAttributeDialog() {
     const DELETE_MARGIN_LEFT_STYLE = {marginLeft: '0.15rem'};
     const isMultiline = editSignal.value.multiline;
     const maxLength = editSignal.value.maxLength || DEFAULT_MAX_INPUT_LENGTH;
-    const submitClass = isMultiline? '' : 'display-none';
+    const submitClass = 'character-box-button main-text'
     // const inputClass = isMultiline?  'display-none': 'input-filter';
     const inputClass = getInputClass(!isMultiline);
     // const textAreaClass = !isMultiline?  'display-none': 'input-filter';
@@ -49,7 +49,7 @@ export default function EditAttributeDialog() {
                     {newItem && <label htmlFor='attribute-text-area'>Description</label>}
                     <textarea name = 'attribute-text-area' ref = {multiLinerRef} id = 'atr-edit-text-area' className = {textAreaClass} maxLength = {maxLength} />
                     <div className = 'edit-dialog-buttons'>
-                        <input type = 'submit' className = {`${submitClass} character-box-button main-text`}/>
+                        <input type = 'submit' className = {`${submitClass} `} value={translate('submit')}/>
                         <button className={`delete-button ${deleteButtonExtraClass}`} style={deleteSButtonStyle} onClick = {showDeleteQuestion}>{translate('Delete')}</button>
 
                     </div>

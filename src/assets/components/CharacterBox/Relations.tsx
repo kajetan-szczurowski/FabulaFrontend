@@ -5,6 +5,8 @@ import { useState, useRef, useEffect } from 'react'
 import { usersDataState } from '../../states/GlobalState'
 import { socket } from '../../providers/SocketProvider'
 import { withChangeClassOnClick } from '../withChangeClassOnClick'
+import { translate } from '../../Dictionaries/translate'
+import EditableAttribute from './CharacterManipulation/EditableAttribute'
 
 
 const UNCHECKED_CLASS = "character-box-button main-text";
@@ -19,10 +21,16 @@ export default function Relations({data}: props) {
             <OneRelation {...relation} key = {relation.id}/>
         )})}
         </>
+        <br></br>
+        <button className='character-box-button main-text' onClick = {handleAddNewClick}>Add new</button>
     </div>
   )
 
 
+}
+
+function handleAddNewClick(){
+    socket.emit('new-character-attribute', getNewEmitPayload());
 }
 
 function OneRelation({label, id, emotions}: relationType){
@@ -31,10 +39,14 @@ function OneRelation({label, id, emotions}: relationType){
     useEffect(() => oneRelationUseEffect(firstRender, emotionStates, id), [...emotionStates]);
     const strength = getRelationStrength(emotionStates);
     const EmotionsSetting = withChangeClassOnClick(Header, BodyExpandableWrapper, id);
+    const socketOrder = {attributesGroup: 'relations', attributeID: id, attributeSection: 'label'};
     return(
         <>
-                    <h2>{label}</h2>
-                    relation force: {strength},
+                    <h2 className='relation-text'>
+                        <div><EditableAttribute text = {label} maxLength={100} title = {label} {...socketOrder} /></div>
+                    </h2>
+
+                    <div className='relation-text relation-force'>{translate('relation force')}: {strength}</div>
                     <EmotionsSetting/>
 
         </>
@@ -47,7 +59,7 @@ function OneRelation({label, id, emotions}: relationType){
                 const currentSetter = emotionSetters[index] as React.Dispatch<React.SetStateAction<number>>;
                 return(
                     <div key = {index} className = 'relation-dip-switch'>
-                        <DipSwitchWithReset checkedClass={CHECKED_CLASS} uncheckedClass={UNCHECKED_CLASS} chosenSetState={currentSetter} chosenStateValue={emotionStates[index]} labels = {labels[index]}/>
+                        <DipSwitchWithReset checkedClass={CHECKED_CLASS} uncheckedClass={UNCHECKED_CLASS} chosenSetState={currentSetter} chosenStateValue={emotionStates[index]} labels = {labels[index].map(lab => translate(lab))}/>
                     </div>
                 )
             })}
@@ -60,7 +72,7 @@ function Header({clicked, setClicked}: toClickType){
     return(
     <div>
         <div className = 'item-label'>
-            <div>Emotions</div>
+            <div className = 'relation-text'>{translate('Emotions')}</div>
         {/* <div><EditableAttribute text = {label} maxLength={MAX_LENGTH_HEADER} title = {label} {...socketOrder} /></div> */}
           <div className={`visibility-controll-clicked-${clicked} visibility-controll character-box-clickable`} style = {{background: 'none'}} onClick = {function(){setClicked(prev => !prev)}}>v</div>
         </div>
@@ -90,7 +102,7 @@ function oneRelationUseEffect(firstRender: React.MutableRefObject<boolean>, emot
         return;
     }
     // console.log('socketuję', emotionStates)
-    socket.emit('edit-character-attribute', getEmitPayload(emotionStates, relationID))
+    socket.emit('edit-character-attribute', getEmitPayload(emotionStates, relationID));
 }
 
 function getEmitPayload(emotionsArray: emotionForceType[], relationID: string){
@@ -101,8 +113,14 @@ function getEmitPayload(emotionsArray: emotionForceType[], relationID: string){
         attributeID: relationID,
         attributeSection: 'emotions',
         value: emotionsArray,
-        label: undefined
+        label: ''
     };
+}
+
+function getNewEmitPayload(){
+    const payload = getEmitPayload([], '');
+    payload.label = translate('New relation');
+    return payload;
 }
 
 function oneRelationHeader(emotions: emotionForceType[]): [emotionForceType[], React.Dispatch<React.SetStateAction<emotionForceType>>[], string[][]]{

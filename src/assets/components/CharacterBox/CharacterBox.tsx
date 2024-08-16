@@ -92,7 +92,7 @@ export default function CharacterBox() {
       <section id = 'character-box' >
         <EditAttributeDialog/>
         <div id = 'login-bar'>
-          <AuxilaryCharacterButton onClickEvent={triggerSettingsWindow} label = 'gear' />
+          {/* <AuxilaryCharacterButton onClickEvent={triggerSettingsWindow} label = 'gear' /> */}
           <AuxilaryCharacterButton onClickEvent={handleRefresh} label = 'refresh' />
           <Login/>
         </div>

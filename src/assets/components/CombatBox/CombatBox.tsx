@@ -4,6 +4,7 @@ import React, { useState, useRef } from "react";
 import { socket } from "../../providers/SocketProvider";
 import { usersDataState } from "../../states/GlobalState";
 import CharacterBars from "./CharacterBars";
+import { translate } from "../../Dictionaries/translate";
 
 export const clocksState = signal<clockType[]>(defaultState('get-clocks')); 
 export const characterBarsState = signal<characterBarType[]>(defaultState('get-character-bars'));
@@ -23,7 +24,6 @@ export default function CombatBox() {
 
   socket.on('clocks-data', (newClocksData: clockType[]) => clocksState.value = newClocksData);
   socket.on('character-bars', (newBars: characterBarType[]) => characterBarsState.value = newBars);
-  socket.on('character-bars', (newBars: characterBarType[]) => console.log(newBars));
 
 
 
@@ -77,8 +77,8 @@ export default function CombatBox() {
     const buttonClass = 'character-box-button main-text';
     const activeButtonClass = `${buttonClass} character-box-clicked`;
     return(<div className = 'combat-navigation'>
-      <button className={currentWindow === 'party'? activeButtonClass : buttonClass} onClick = {() => setCurrentWindow('party')}>Party</button>
-      <button className={currentWindow === 'clocks'? activeButtonClass : buttonClass} onClick = {() => setCurrentWindow('clocks')}>Clocks</button>
+      <button className={currentWindow === 'party'? activeButtonClass : buttonClass} onClick = {() => setCurrentWindow('party')}>{translate('party')}</button>
+      <button className={currentWindow === 'clocks'? activeButtonClass : buttonClass} onClick = {() => setCurrentWindow('clocks')}>{translate('clocks')}</button>
     </div>)
   }
 

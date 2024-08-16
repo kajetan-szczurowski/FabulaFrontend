@@ -35,7 +35,20 @@ function getDictionary(): {[key: string]: string} {
         "yes, delete": "tak, usuń",
         "magic's cost": "PM",
         "duration": "czas trwania",
-        "target": "cel"
+        "target": "cel",
+        "relation force": "siła więzi",
+        "relations": "więzi",
+        "emotions": "emocje",
+        "admiration": "podziw",
+        "inferiority": "niższość",
+        "loyalty": "lojalność",
+        "distrust": "nieufność",
+        "sympathy": "sympatia",
+        "hate": "nienawiść",
+        "new relation": "nowa więź",
+        "submit": "prześlij",
+        "party": "drużyna",
+        "clocks": "zegary"
 
 
     }

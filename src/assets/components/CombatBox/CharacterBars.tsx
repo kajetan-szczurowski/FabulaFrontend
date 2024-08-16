@@ -5,6 +5,7 @@ import DropDownList from '../DropDownList';
 import { characterMapSignal } from '../CharacterBox/CharacterBox';
 import { useSocket } from '../../providers/SocketProvider';
 import { ChangeEvent } from 'react';
+import { translate } from '../../Dictionaries/translate';
 
 export default function CharacterBars() {
     const bars = characterBarsState.value;
@@ -15,7 +16,7 @@ export default function CharacterBars() {
 
     return(
         <>
-            <h2>Party:</h2>
+            <h2 className="relation-text">{translate('party')}:</h2>
             <section className = 'hp-list'>
             {bars.map(bar => {
                 const authorized = checkAuthorization(bar.id, bar.name);
@@ -39,6 +40,7 @@ export default function CharacterBars() {
     )
 
     function handleSelectChange(e: ChangeEvent<HTMLSelectElement>){
+        if (e.target.value === 'dummy') return;
         const choosenID = getChosenID(e.target.value);
         socket.emit('toogle-character-bar', {userID: userID, characterID: choosenID})
     }

@@ -3,6 +3,7 @@ import {signal, useComputed, useSignal} from '@preact/signals-react';
 import { useSocket } from '../../providers/SocketProvider';
 import { InputListWithLimit } from '../../dataTypes/chatHistory';
 import { characterNameSignal } from '../CharacterBox/CharacterBox';
+import { characterData } from '../CharacterBox/CharacterBox';
 
 export const chatInputSignal = signal({modifier: '', description: ''});
 
@@ -19,9 +20,19 @@ export default function ChatInput() {
   prepareInput(textInput.value);
   document.onkeydown = keyEvent;
   return (
-    <form onSubmit={handleSubmit} >
-      <input name = 'chatInput'  type= 'text' className = 'main-text' id = {'input-area'} ref = {inputRef} autoComplete="off" maxLength={150}/>
-    </form>
+    <div className='chat-control-place'>
+
+      <div className='chat-buttons'>
+        <AttributeButton text = 'ZR' objectLabel='agility' />
+        <AttributeButton text = 'WJ' objectLabel='inside' />
+        <AttributeButton text = 'PO' objectLabel='power' />
+        <AttributeButton text = 'SW' objectLabel='will' />
+      </div>
+
+        <form onSubmit={handleSubmit} >
+          <input name = 'chatInput'  type= 'text' className = 'main-text' id = {'input-area'} ref = {inputRef} autoComplete="off" maxLength={150}/>
+        </form>
+    </div>
 
   )
 
@@ -178,5 +189,28 @@ export default function ChatInput() {
     return reversed;
   }
 
+  function AttributeButton({objectLabel, text}: attributeButtonProps){
+    return (
+      <button className="character-box-clickable character-box-button" onClick = {handleAttributeDice}>{text}</button>
+    )
 
+    function handleAttributeDice(){
+
+      chatInputSignal.value = {modifier: getValue(), description: 'singular-dice'};
+    }
+  
+
+    function getValue(){
+      if (!characterData.value) return '';
+      if (!characterData.value.about) return '';
+
+      return characterData.value.about.find(property => property.label === objectLabel)?.description ?? '';
+    }
+
+  }
+}
+
+type attributeButtonProps = {
+  text: string,
+  objectLabel: string
 }
