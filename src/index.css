@@ -781,6 +781,7 @@ span[class^="rolls-family-visibility-"]{
 
 .relation-dip-switches-wrapper{
   display: flex;
+  justify-content: center;
 }
 
 .relation-dip-switch{
