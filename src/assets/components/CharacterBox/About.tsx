@@ -4,11 +4,9 @@ import { characterBasicValueType } from '../../types/characterTypes';
 
 export default function About() {
   const aboutData = characterData.value?.about;
+  const [dataBatches, unorganizedData] = getBatchedProperties(aboutData?? []);
   if (!aboutData) return (<></>);
-  if (aboutData.length === 0) return;
-
-  const [dataBatches, unorgonizedData] = getBatchedProperties(aboutData);
-  let firstBatchIterated = false;
+  if (aboutData.length === 0) return (<></>);
 
   return (
 
@@ -25,19 +23,13 @@ export default function About() {
           </div>
           <hr/>
 
-          {dataBatches.map(batch => {
-            if (!firstBatchIterated) {
-              firstBatchIterated = true;
-              return (<></>)
-            }
+          <BatchesComponent data = {dataBatches[1]}/>
+          <BatchesComponent data = {dataBatches[2]}/>
+          <BatchesComponent data = {dataBatches[3]}/>
+          <BatchesComponent data = {dataBatches[4]}/>
+          {/* <BatchesComponent data = {unorganizedData}/> */}
 
-            return(
-            <>
-              <ListWithHeader data = {batch} attributeGroup='about' maxLength={1000}/>
-              <hr/>
-            </>
-              )
-          })}
+
 
         </div>
       </div>
@@ -48,7 +40,18 @@ export default function About() {
 
 }
 
+function BatchesComponent({data}: {data: characterBasicValueType[]}){
+  return(
+    <>
+         <ListWithHeader data = {data} attributeGroup='about' maxLength={1000}/>
+         <hr/>
+    </>
+  )
+}
+
 function getBatchedProperties(data: characterBasicValueType[]): [characterBasicValueType[][], characterBasicValueType[]]{
+  // if (data.length === 0) return [[], []];
+
   const batchMap = [['pronounce', 'identity', 'origin', 'theme'], ['level', 'classes'], 
   ['agility', 'power', 'will', 'inside'], ['fabulaPoints', 'initiative', 'armor', 'magicalDefence'] ];
 

@@ -224,13 +224,15 @@ function getPlaceholderData():characterDataType{
     currentEP: '',
     maxMagic: '',
     currentMagic: '',
+    graphicUrl: '',
   
     about: [],
     actions: [],
     EQ: [],
     skills: [],
     spells: [],
-    rolls: []
+    rolls: [],
+    relations: []
   }
 }
 
