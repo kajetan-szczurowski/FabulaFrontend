@@ -92,6 +92,10 @@ ol{
   width: 100%;
 }
 
+.about-portrait:hover{
+  cursor: pointer;
+}
+
 .navigation-buttons{
   display: flex;
   flex-direction: row;
@@ -172,6 +176,16 @@ ol{
 } */
 
 .navigation-buttons div{
+  margin-right: 1rem;
+}
+
+.list-section{
+  display: flex;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.list-section li{
   margin-right: 1rem;
 }
 

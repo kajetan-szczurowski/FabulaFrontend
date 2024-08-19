@@ -23,6 +23,7 @@ export default function EditAttributeDialog() {
     handleDialog();
 
     const newItem = editSignal.value.newItem;
+    const disableDelete = editSignal.value.disableDelete;
     const DELETE_MARGIN_LEFT_STYLE = {marginLeft: '0.15rem'};
     const isMultiline = editSignal.value.multiline;
     const maxLength = editSignal.value.maxLength || DEFAULT_MAX_INPUT_LENGTH;
@@ -32,7 +33,7 @@ export default function EditAttributeDialog() {
     // const textAreaClass = !isMultiline?  'display-none': 'input-filter';
     const textAreaClass = getInputClass(isMultiline ?? false);
     const deleteSButtonStyle = isMultiline? DELETE_MARGIN_LEFT_STYLE : {};
-    const deleteButtonExtraClass = newItem? 'display-none': '';
+    const deleteButtonExtraClass = (newItem || disableDelete)? 'display-none': '';
 
 
     const toDeleteLabel = editSignal.value.title || editSignal.value.text.slice(0, LABEL_LENGTH_IF_TITLE_OMITTED);
@@ -157,5 +158,6 @@ export type AttributeEditType = {
     attributesGroup?: string,
     attributeID?: string,
     attributeSection?: string,
-    newItem?: boolean
+    newItem?: boolean,
+    disableDelete?: boolean
 }

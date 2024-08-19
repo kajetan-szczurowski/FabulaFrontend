@@ -28,9 +28,9 @@ export default function CharacterBars() {
                     </div>
                     
                     <div className = 'character-bar-description-wrapper'>
-                        <ProgressBar authorization = {authorized} id = {bar.id} widthRem={5} value = {bar.HP.current} maxValue={bar.HP.max} foregroundClassName='hp-bar' socketEditKey = {''} label = {bar.name}/>
-                        <ProgressBar authorization = {authorized} id = {bar.id} widthRem={5} value = {bar.PM.current} maxValue={bar.PM.max} foregroundClassName='magic-bar' socketEditKey = {''} label = {bar.name}/>
-                        <ProgressBar authorization = {authorized} id = {bar.id} widthRem={5} value = {bar.EP.current} maxValue={bar.EP.max} foregroundClassName='eq-bar' socketEditKey = {''} label = {bar.name}/>
+                        <ProgressBar authorization = {authorized} id = {bar.id} widthRem={5} value = {bar.HP.current} maxValue={bar.HP.max} foregroundClassName='hp-bar' socketEditKey = {'change-character-bar'} label = {bar.name} section = 'HP'/>
+                        <ProgressBar authorization = {authorized} id = {bar.id} widthRem={5} value = {bar.PM.current} maxValue={bar.PM.max} foregroundClassName='magic-bar' socketEditKey = {'change-character-bar'} label = {bar.name} section = 'PM'/>
+                        <ProgressBar authorization = {authorized} id = {bar.id} widthRem={5} value = {bar.EP.current} maxValue={bar.EP.max} foregroundClassName='eq-bar' socketEditKey = {'change-character-bar'} label = {bar.name} section = 'EP'/>
                     </div>
                 </div>
             )})}

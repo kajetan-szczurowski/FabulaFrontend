@@ -22,7 +22,7 @@ export default function Relations({data}: props) {
         )})}
         </>
         <br></br>
-        <button className='character-box-button main-text' onClick = {handleAddNewClick}>Add new</button>
+        <button className='character-box-button main-text' onClick = {handleAddNewClick}>{translate('Add new')}</button>
     </div>
   )
 

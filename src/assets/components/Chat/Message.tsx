@@ -43,12 +43,30 @@ export default function Message({data}:props) {
 
   function isNatural(rollText: string, rollOrder: string | undefined){
     if (!rollOrder) return false;
-    const orderStart = rollOrder.slice(0,3);
-    if (orderStart !== 'd20') return false;
-    const textStart = rollText.slice(0,2);
-    return textStart === '20' || textStart.trim() === '1';
+    const rolls = rollOrder?.match(/(\d?)+d/g);
+    if (!rolls) return false;
+    const diceCount = countDices(rolls);
+    if (diceCount !== 2) return false;
+    return checkRollForCritical(rollText);
   }
 } 
+
+function countDices(dicesArray: string[]){
+    let count = 0;
+    dicesArray.forEach(dice => {
+        const current = dice.replace('d', '');
+        const append = (current.length === 0)? 1 : Number(current);
+        count += append;
+    })
+    return count;
+}
+
+function checkRollForCritical(rollText: string){
+    const separated = rollText.split('+').map(item => Number(item));
+    if (separated.length < 2) return false;
+    if (separated[0] !== separated[1]) return false;
+    return separated[0] === 1 || separated[0] > 5;
+}
 
 type props = {
     data : MessageType

@@ -2,8 +2,9 @@
 import { useRef } from "react";
 import { useSocket } from "../../providers/SocketProvider";
 import { usersDataState } from "../../states/GlobalState";
+import { translate } from "../../Dictionaries/translate";
 
-export default function ProgressBar({widthRem, value, maxValue, foregroundClassName, label, authorization = true, socketEditKey, id}: props) {
+export default function ProgressBar({widthRem, value, maxValue, foregroundClassName, label, authorization = true, socketEditKey, id, section = ''}: props) {
     const socket = useSocket();
     const userID = usersDataState.value.userID;
     const valueCoefficient = getValueCoefficient(value, maxValue);
@@ -21,6 +22,7 @@ export default function ProgressBar({widthRem, value, maxValue, foregroundClassN
   
           <div className="item-value progress-bar-text">{`${value}/${maxValue}`}</div>
       </div>
+      <EditDialog/>
       </>
     )
 
@@ -29,14 +31,14 @@ export default function ProgressBar({widthRem, value, maxValue, foregroundClassN
 
 
       return(
-        <dialog id = {`dialog-${idSuffix}`} ref = {dialogRef} className = 'character-changer edit-dialog'>
-          <form id = {`form-${idSuffix}`} onSubmit={handleFormSubmit}>
+        <dialog id = {`dialog-${idSuffix}`} ref = {dialogRef} className = 'character-changer'>
+          <form id = {`form-${idSuffix}`} onSubmit={handleFormSubmit} className="edit-dialog">
             <div>
-              <span>Current:</span>
+              <span className="capitalized">{translate('Current level')}:</span>
               <input ref = {currentValueRef} maxLength={5} type = 'text' defaultValue={value} className = 'input-filter'/>
             </div>
             <div>
-              <span>Max:</span>
+              <span className="capitalized">{translate('Max level')}:</span>
               <input ref = {maxValueRef} maxLength={5} type = 'number' defaultValue={maxValue} className = 'input-filter'/>
             </div>
             <input type = 'submit' className="hidden"/>
@@ -59,7 +61,7 @@ export default function ProgressBar({widthRem, value, maxValue, foregroundClassN
       const proposedMax = getCheckedInputValue(maxValueRef.current.value) || maxValue;
       const newMax = proposedMax < 0? maxValue : proposedMax;
       const newCurrent = prepareNewCurrentValue(currentValueRef.current.value, newMax) || value;
-      socket.emit(socketEditKey, {value: newCurrent, max: newMax, userID: userID, characterID: id});
+      socket.emit(socketEditKey, {value: newCurrent, max: newMax, userID: userID, characterID: id, section: section});
       if (!dialogRef.current) return;
       if (dialogRef.current.open) dialogRef.current.close();
     }
@@ -69,7 +71,7 @@ export default function ProgressBar({widthRem, value, maxValue, foregroundClassN
       const proposed = getCheckedInputValue(newCurrent);
       if (!proposed) return;
       const sign = newCurrent.charAt(0);
-      if (sign === '+' || sign === '-') return limitValue(proposed + value, 0, newMax);
+      if (sign === '+' || sign === '-') return limitValue(proposed + Number(value), 0, newMax);
       return limitValue(proposed, 0, newMax);
 
     }
@@ -104,5 +106,6 @@ export default function ProgressBar({widthRem, value, maxValue, foregroundClassN
       authorization?: boolean,
       label: string,
       socketEditKey: string,
-      id: string
+      id: string,
+      section?: string
   }

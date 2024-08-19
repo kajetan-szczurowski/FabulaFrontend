@@ -48,7 +48,10 @@ function getDictionary(): {[key: string]: string} {
         "new relation": "nowa więź",
         "submit": "prześlij",
         "party": "drużyna",
-        "clocks": "zegary"
+        "clocks": "zegary",
+        "current level": "obecny poziom",
+        "max level": "maksymalny poziom",
+        "insert url to new graphic": "Wstaw URL nowej grafiki"
 
 
     }

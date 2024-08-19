@@ -6,7 +6,7 @@ import { editSignal } from './CharacterManipulation/EditAttributeDialog';
 
 export default function CharacterWindow({data, attributeGroup}: props) {
   if (!data) return (<></>)
-  if (data.length === 0) return;
+  // if (data.length === 0) return;
   const CharacterComponent = withInputFilter(WindowInside);
   return (
 
