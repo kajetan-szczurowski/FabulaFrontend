@@ -1,7 +1,7 @@
 import { characterBasicValueType } from "../../types/characterTypes";
 import EditableAttribute from "./CharacterManipulation/EditableAttribute";
 
-export default function ListWithHeader({header, data, maxLength, attributeGroup, sectionClassName = 'list-section', disableDelete = false}: props) {
+export default function ListWithHeader({header, data, maxLength, attributeGroup, sectionClassName = 'list-section', disableDelete = false, liClass = 'text-left'}: props) {
   const DEFAULT_MAX_INPUT_LENGTH = 30;
   const MAX_INPUT_LENGTH_FOR_LABEL = 100;
   if (!data) return(<></>)
@@ -16,7 +16,7 @@ export default function ListWithHeader({header, data, maxLength, attributeGroup,
               const contentPayload = {text: input.description, label: input.label, id: input.id, socketOrderSuffix: 'description'};
               const headerPayload = {text: input.label, label: input.label, id: input.id, socketOrderSuffix: 'label'};
               return(
-                <li key = {input.id}>
+                <li key = {input.id} className={liClass}>
                   <strong><Content {...headerPayload} customMaxLength={MAX_INPUT_LENGTH_FOR_LABEL} /></strong> 
                   {!containLetters && <em className = 'numeric-value'><Content {...contentPayload} /></em>}
                   {containLetters && <em><Content {...contentPayload} /></em>}
@@ -48,5 +48,6 @@ type props = {
     attributeGroup: string,
     data: characterBasicValueType[],
     sectionClassName? :string,
-    disableDelete?: boolean
+    disableDelete?: boolean,
+    liClass?: string
 }

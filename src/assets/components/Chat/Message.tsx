@@ -2,8 +2,9 @@ import { MessageType } from "./Chat"
 import NumericAndTextSpans from "../NumericAndTextSpans";
 
 export default function Message({data}:props) {
-    const {messageTypeName, text, sender, rawOrder, result, comment} = data;
-
+    const {messageTypeName, text, sender, rawOrder, result, comment, color} = data;
+    const userColor = color? `rgb(${color})`: '';
+    // console.log(data);
   return(
     <div>
         <MessageContent />
@@ -17,7 +18,7 @@ export default function Message({data}:props) {
         case 'system':return(<span className = 'system-message'>{text}</span>)
         case 'message': return(
             <>
-                <span className = 'message-sender'>{sender}: </span>
+                <span className = 'message-sender' style = {{color: userColor}}>{sender}: </span>
                 <span className = 'message-text'>{text}</span>
             </>
 
@@ -25,7 +26,7 @@ export default function Message({data}:props) {
 
         case 'roll': return(
             <>
-                <span className = 'message-sender'>{sender}: </span>
+                <span className = 'message-sender' style = {{color: userColor}}>{sender}: </span>
                 <span className = 'in-brackets message-raw-roll'>
                     <NumericAndTextSpans value = {rawOrder} digitsClass="message-raw-roll digit-font" nonDigitsClass="message-raw-roll"/>
                 </span>

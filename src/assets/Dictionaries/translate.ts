@@ -51,7 +51,8 @@ function getDictionary(): {[key: string]: string} {
         "clocks": "zegary",
         "current level": "obecny poziom",
         "max level": "maksymalny poziom",
-        "insert url to new graphic": "Wstaw URL nowej grafiki"
+        "insert url to new graphic": "Wstaw URL nowej grafiki",
+        "add new": "dodaj"
 
 
     }

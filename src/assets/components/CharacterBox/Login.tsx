@@ -10,6 +10,7 @@ export default function Login() {
     const DEFAULT_USERNAME = 'Unknown user';
     const SESSION_STORAGE_KEY = 'LRO-logged-user-ID';
     const loginRef = useRef<HTMLInputElement>(null);
+    const submitRef = useRef<HTMLInputElement>(null);
     const idRef = useRef<string>("");
     const socket = useSocket();
 
@@ -46,8 +47,9 @@ export default function Login() {
 
     function LoginForm(){
         return(
-            <form id = 'login-form' onSubmit = {handleLoginSubmit}>
+            <form id = 'login-form' onSubmit = {handleLoginSubmit} style = {{display: 'flex'}}>
                 <input id = 'login-input' type = 'password' ref = {loginRef} className='login-disabled' defaultValue={defaultPassword}></input>
+                <input type='submit' className = 'login-disabled' ref = {submitRef}></input>
             </form>
             )
     }
@@ -62,6 +64,8 @@ export default function Login() {
     function handleLoginButton(){
         if (!loginRef.current) return;
         loginRef.current.className = 'login-enabled';
+        // if (!submitRef.current) return;
+        // submitRef.current.className = 'character-box-button main-text';
     }
 
     function handleLogoutButton(){

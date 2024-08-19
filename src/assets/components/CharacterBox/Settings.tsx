@@ -1,5 +1,6 @@
 import { useRef } from 'react';
 import {  signal } from '@preact/signals-react';
+import ColorPicker from '../ColorPicker';
 
 const APP_SETTINGS_STEPS_SOUND = 'LRO-application-settings-steps';
 export const stepSounds = signal(defaultStepsSound());
@@ -7,19 +8,22 @@ export const stepSounds = signal(defaultStepsSound());
 
 export default function Settings() {
     const dialogRef = useRef<HTMLDialogElement>(null);
-    const buttonText = stepSounds.value? 'Steps sound active' : 'Steps sound muted';
+    // const buttonText = stepSounds.value? 'Steps sound active' : 'Steps sound muted';
     return(
-        <dialog className='settings-dialog' ref = {dialogRef}>
-          <h2>Application's Settings</h2>
-          <button onClick = {handleClick} className= {'character-box-button character-box-clickable'}> {buttonText} </button>
+        <dialog className='settings-dialog character-box-button' ref = {dialogRef}>
+          <div className='edit-dialog'>
+            <h2>Application's Settings</h2>
+            {/* <button onClick = {handleClick} className= {'character-box-button character-box-clickable'}> {buttonText} </button> */}
+            <ColorPicker/>
+          </div>
         </dialog>
     )
 
-    function handleClick(){
-      stepSounds.value = stepSounds.value? 0: 1;
-      localStorage.setItem(APP_SETTINGS_STEPS_SOUND, stepSounds.value? '1' : '0');
-      if (dialogRef.current) dialogRef.current.close();
-    }
+    // function handleClick(){
+    //   stepSounds.value = stepSounds.value? 0: 1;
+    //   localStorage.setItem(APP_SETTINGS_STEPS_SOUND, stepSounds.value? '1' : '0');
+    //   if (dialogRef.current) dialogRef.current.close();
+    // }
 }
 
 

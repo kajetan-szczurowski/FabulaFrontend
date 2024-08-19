@@ -4,17 +4,18 @@ import { useSocket } from '../../providers/SocketProvider';
 import { InputListWithLimit } from '../../dataTypes/chatHistory';
 import { characterNameSignal } from '../CharacterBox/CharacterBox';
 import { characterData } from '../CharacterBox/CharacterBox';
+import { usersDataState } from '../../states/GlobalState';
 
 export const chatInputSignal = signal({modifier: '', description: ''});
 
 export default function ChatInput() {
   const historyKey = 'lets-roll-one-chat-input-history';
-  const SESSION_STORAGE_LOGIN_ID_KEY = 'LRO-logged-user-ID';
   const inputHistoryLimit = 20;
   const socket = useSocket();
   const textInput = useComputed(compileChatSignal);
   // const chatHistory = useLocalStorageSignal(historyKey, new InputListWithLimit<string>(inputHistoryLimit));
   const chatHistory = useSignal(new InputListWithLimit(inputHistoryLimit, historyKey));
+  const PICKED_VALUE_STORAGE_KEY = 'fabula-chat-color-value-picked';
 
   const inputRef = useRef<HTMLInputElement>(null);
   prepareInput(textInput.value);
@@ -38,10 +39,11 @@ export default function ChatInput() {
 
   function handleSubmit(e: SyntheticEvent){
     e.preventDefault();
+    const color = usersDataState.value.chatColor ?? localStorage.getItem(PICKED_VALUE_STORAGE_KEY);
     const target = e.target as typeof e.target & {chatInput: {value: string}};
     const chatValue = target.chatInput.value;
     if (chatValue == '') return;
-    if (socket) socket.emit('chat-message', {value: chatValue, sender: characterNameSignal.value, userID : sessionStorage.getItem(SESSION_STORAGE_LOGIN_ID_KEY)}); 
+    if (socket) socket.emit('chat-message', {value: chatValue, sender: characterNameSignal.value, userID : usersDataState.value.userID, color: color}); 
     if (chatValue !== chatHistory.value.getIthFromEnd(0)) chatHistory.value.push(chatValue);
     // chatHistory.value.printList();
     //TODO: move To BackEnd

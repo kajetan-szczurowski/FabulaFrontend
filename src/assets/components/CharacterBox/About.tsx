@@ -22,12 +22,12 @@ export default function About() {
           <div className = 'about-header'>
             <div>
               <h1>{characterData.value?.name}</h1>
-              <ListWithHeader data = {dataBatches[0]} attributeGroup='about' maxLength={1000} disableDelete = {true}/>
+              <ListWithHeader data = {dataBatches[0]} attributeGroup='about' maxLength={100} disableDelete = {true}/>
             </div>
 
             <img src= {characterData.value?.graphicUrl ?? 'https://s13.gifyu.com/images/S0Ird.png'} className = 'about-portrait' onClick = {handleImageClick}/>
           </div>
-          <hr/>
+          <hr className='about-hr'/>
 
           <BatchesComponent data = {dataBatches[1]}/>
           <BatchesComponent data = {dataBatches[2]}/>
@@ -74,8 +74,8 @@ export default function About() {
 function BatchesComponent({data}: {data: characterBasicValueType[]}){
   return(
     <>
-         <ListWithHeader data = {data} attributeGroup='about' maxLength={1000}  disableDelete = {true}/>
-         <hr/>
+         <ListWithHeader data = {data} attributeGroup='about' maxLength={100}  disableDelete = {true}/>
+         <hr className='about-hr'/>
     </>
   )
 }
@@ -87,7 +87,8 @@ function getBatchedProperties(data: characterBasicValueType[]): [characterBasicV
   ['agility', 'power', 'will', 'inside'], ['fabulaPoints', 'initiative', 'armor', 'magicalDefence'] ];
 
   const prepedBatches: characterBasicValueType[][] = [];
-  batchMap.forEach(group => prepedBatches.push([]));
+  batchMap.forEach(() => prepedBatches.push([]));
+  
   const leftover = data.map(prop => {
     for (let index = 0; index < batchMap.length; index++){
       if (batchMap[index].includes(prop.label)){

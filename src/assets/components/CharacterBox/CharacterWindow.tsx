@@ -3,6 +3,7 @@ import ElementsList from './ElementsList';
 import { withInputFilter } from '../withInputFilter';
 import { elementType } from '../../types/characterTypes';
 import { editSignal } from './CharacterManipulation/EditAttributeDialog';
+import { translate } from '../../Dictionaries/translate';
 
 export default function CharacterWindow({data, attributeGroup}: props) {
   if (!data) return (<></>)
@@ -22,8 +23,8 @@ export default function CharacterWindow({data, attributeGroup}: props) {
     const dataToShow = filter.length > 0? filtered : data;
     return(
       <>
+        <button className='character-box-button main-text add-button' onClick = {handleAddNewClick}>{translate('Add new')}</button>
         <ElementsList listOfData={dataToShow} attributeGroup={attributeGroup}/>
-        <button className='character-box-button main-text' onClick = {handleAddNewClick}>Add new</button>
       </>
     )
   }

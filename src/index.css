@@ -410,7 +410,7 @@ ul li{
 .clocks-box{
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   flex-wrap: wrap;
 }
 
@@ -420,6 +420,18 @@ ul li{
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.text-left{
+  text-align: left;
+}
+
+.about-hr{
+  height: 1px;
+  color: var(--main-text-color);
+  background: var(--main-text-color);
+  font-size: 0;
+  border: 0;
 }
 
 .character-box-clickable{
@@ -834,7 +846,76 @@ span[class^="rolls-family-visibility-"]{
   flex-direction: column;
 }
 
-@media (max-width: 800px){
+.add-button{
+  margin-top: 1rem;
+}
+
+.rgb-preview{
+  width: 15px;
+  height: 15px;
+  margin-right: 1rem;
+}
+
+.rgb-picker-button{
+  margin-right: 1rem;
+}
+
+.rgb-picker-option{
+  display: flex;
+  align-items: center;
+  justify-items: center;
+}
+
+.color-picker{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.rgb-option-text{
+  color: var(--main-text-color);
+
+}
+
+@media (max-height: 585px){
+  #character-box{
+    height: 68vh;
+  }
+}
+
+@media (max-height: 700px){
+  #character-box{
+    height: 10vh;
+  }
+}
+
+@media (max-height: 546px){
+  #character-box{
+    height: 60vh;
+  }
+}
+
+@media (max-height: 430px){
+  #character-box{
+    height: 50vh;
+  }
+}
+
+@media (max-width: 1300px){
+  #character-box{
+    height: 70vh;
+  }
+}
+
+@media (max-width: 1260px){
+  #character-box{
+    height: 65vh;
+  }
+}
+
+
+
+@media (max-width: 840px){
   body {
     overflow-y: auto;
     height: auto;
@@ -854,11 +935,22 @@ span[class^="rolls-family-visibility-"]{
     width: 90%;
     margin: 0 auto;
   }
-  
-  #main-map{
-    display:none;
+
+  #combat-box{
+    margin-top: 5rem;
   }
+  
 
+}
 
+@media (max-width: 560px){
+  #combat-box{
+    margin-top: 7rem;
+  }
+}
 
+@media (max-width: 385px){
+  #combat-box{
+    margin-top: 18rem;
+  }
 }

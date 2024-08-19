@@ -1,19 +1,14 @@
 import { useState,  useRef } from 'react'
 import About from './About';
-import Rolls from './Rolls';
-import MapGraphics from '../GameMasterBox/MapGraphics';
-import MapAuthorizations from '../GameMasterBox/MapAuthorizations';
 import { Signal, useSignalEffect, signal} from "@preact/signals-react";
 import { characterDataType } from '../../types/characterTypes';
 import { useLocalStorage, useLocalStorageSignal } from '../../hooks/useStorage';
 import Login from './Login';
 import EditAttributeDialog from './CharacterManipulation/EditAttributeDialog';
 import AuxilaryCharacterButton from './AuxilaryCharacterButton';
-import Combat from './Combat';
 import { triggerSettingsWindow } from './Settings';
 import { usersDataState } from '../../states/GlobalState';
 import { useSocket } from '../../providers/SocketProvider';
-import Skills from './CharacterWindow';
 import { translate } from '../../Dictionaries/translate';
 import CharacterWindow from './CharacterWindow';
 import Relations from './Relations';
@@ -24,6 +19,7 @@ const charactersStateStorageKey = 'lets-roll-one-charactersState';
 
 const controller = new AbortController();
 let fetchInProgress = false;
+fetchInProgress; //probably bug in Typescript. Without this line vite won't buil dist
 let refreshFilterState = false;
 const REFRESH_FILTER_TIME = 50;
 
@@ -33,26 +29,18 @@ export const characterNameSignal = signal<string>("");
 
 export default function CharacterBox() {
     const [charactersMap, setCharactersMap] = useLocalStorage<characterMap>(charactersMapStorageKey, {});
+    const firstDownloadComplete = useRef(false);
     const socket = useSocket();
 
     useSignalEffect(() => setCharactersMap(characterMapSignal.value));
 
     const charactersState = useLocalStorageSignal<characterDataType[]>(charactersStateStorageKey, []);
     const chosenCharacter = useLocalStorageSignal<string>(chosenCharacterStorageKey, '');
+    if (!firstDownloadComplete.current) setTimeout(handleRefresh, 100);
     useSignalEffect(function(){
       characterData.value = charactersState.value.find(char => char.id === chosenCharacter.value)
       usersDataState.value.currentCharacterID = chosenCharacter.value;
     });
-    // useSignalEffect(function(){
-    //   const state = charactersState.value;
-    //   const current = chosenCharacter.value;
-    //   const characterToChange = state.find(v => v.id === current);
-    //   if (!characterToChange) return;
-    //   const newArray  = state.filter(v => v.id !== current);
-    //   if (!characterData.value) return;
-    //   newArray.push(characterData.value)
-    //   charactersState.value = newArray;; 
-    // });
 
     useSignalEffect(function(){
       if (!characterData.value) return;
@@ -62,18 +50,7 @@ export default function CharacterBox() {
     })
 
 
-
-    // useSignalEffect(() => {console.log('co tam?', charactersState.value)})
-    // const charactersMap = useRef<[characterMap, characterMap[]]>();
-    // usePreviousCharacterData(characterData, chosenCharacter);
-    // usePreviousCharacterData(characterData, '');
-
-    //
-    //
-
-    // const [cData, setcData] = useLocalStorage<characterDataType[]>(cDataKey, []);
     const [openWindow, setOpenWindow] = useState('about');
-    const userIsGM = usersDataState.value.isGM;
 
     socket.on('trigger-refresh', handleRefresh)
 
@@ -84,6 +61,7 @@ export default function CharacterBox() {
       setTimeout(() => refreshFilterState = false, REFRESH_FILTER_TIME);
       // if (fetchInProgress) controller.abort();
       downloadCharacterData(chosenCharacter.value, charactersState);
+      if (!firstDownloadComplete.current) firstDownloadComplete.current = true;
     }
 
 
@@ -92,12 +70,11 @@ export default function CharacterBox() {
       <section id = 'character-box' >
         <EditAttributeDialog/>
         <div id = 'login-bar'>
-          {/* <AuxilaryCharacterButton onClickEvent={triggerSettingsWindow} label = 'gear' /> */}
+          <AuxilaryCharacterButton onClickEvent={triggerSettingsWindow} label = 'gear' />
           <AuxilaryCharacterButton onClickEvent={handleRefresh} label = 'refresh' />
           <Login/>
         </div>
 
-        {/* <CharacterChanger map = {charactersMap} currentID = {chosenCharacter}/> */}
         <CharacterChanger currentID = {chosenCharacter} mainState={charactersState}/>
 
 
@@ -109,32 +86,21 @@ export default function CharacterBox() {
               <NavigationButton state = 'spells' label = 'spells'/>
               <NavigationButton state = 'relations' label = 'relations'/>
 
-
-              {/* <NavigationButton state = 'rolls'/> */}
-              {/* <NavigationButton state = 'combat'/> */}
-              {/* {userIsGM && <NavigationButton state = 'MapGraphics' />} */}
-              {/* {userIsGM && <NavigationButton state = 'mapAuthorizations' />} */}
         </div>
 
 
         <div id = 'character-info'>
-            {/* {openWindow === 'rolls' && <Rolls/>}/ */}
             {openWindow === 'about' && <About/>}
             {openWindow === 'actions' && <CharacterWindow data = {characterData.value?.actions || []} attributeGroup={openWindow}/>}
             {openWindow === 'EQ' && <CharacterWindow data = {characterData.value?.EQ || []} attributeGroup={openWindow}/>}
             {openWindow === 'skills' && <CharacterWindow data = {characterData.value?.skills || []} attributeGroup={openWindow}/>}
             {openWindow === 'spells' && <CharacterWindow data = {characterData.value?.spells || []} attributeGroup={openWindow}/>}
             {openWindow === 'relations' && <Relations data = {characterData.value?.relations || []} />}
-            {/* {openWindow === 'spells' && <Spells/>} */}
-            {/* {openWindow === 'combat' && <Combat/>} */}
-            {/* {openWindow === 'mapAuthorizations' && <MapAuthorizations/>} */}
-            {/* {openWindow === 'MapGraphics' && <MapGraphics/>} */}
 
 
         </div>
 
       </section>
-    // </charactersContext.Provider>
 
   )
   
@@ -154,10 +120,8 @@ export default function CharacterBox() {
 
 
 
-// type mapChanger = React.MutableRefObject<characterMap | undefined>
 function CharacterChanger({ currentID, mainState}: changerProps){
   const dialogRef = useRef<HTMLDialogElement>(null);
-  // useDefaultCharactersMap(setCharactersMap);
   const name = handleName();
   characterNameSignal.value = name;
   return(
@@ -243,11 +207,9 @@ export async function downloadCharacterData(id: string, state: Signal<characterD
   try{
     const data = await fetch(`http://localhost:3000/character/${id}`, {signal});
     // const data = await fetch(`https://lro-2-alpha-backend-production.up.railway.app/character/${id}`);
-    // console.log(data)
     const jsoned = await data.json();
     fetchInProgress = false;
     const prev = state.value.map(val => { return {...val}});
-    console.log(jsoned)
     const newArray = prev.filter(val => val.id !== id);
     newArray.push(jsoned);
     state.value = newArray;

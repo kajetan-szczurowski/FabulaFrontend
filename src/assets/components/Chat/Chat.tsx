@@ -50,6 +50,7 @@ export default function() {
     sender? :string,
     rawOrder? :string,
     comment? :string
+    color?: string
   }
 
 

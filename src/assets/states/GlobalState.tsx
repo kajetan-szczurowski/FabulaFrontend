@@ -4,6 +4,8 @@ export const usersDataState = signal<userDataType>({userID: '', isGM: false, cur
 export const mapDataState = signal<mapDataType>({x: 0, y: 0});
 export const clickedClassMemory = signal<clickedClassMemoryType>({});
 
+
+
 export default function GlobalState() {
   return (
     <>
@@ -17,7 +19,8 @@ type userDataType = {
     isGM: boolean,
     currentCharacterID: string,
     namesIDMap: {[key: string]: string},
-    charactersMap :characterMap
+    charactersMap :characterMap,
+    chatColor?: string
 }
 
 type mapDataType = {
