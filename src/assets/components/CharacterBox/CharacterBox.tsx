@@ -205,8 +205,9 @@ export async function downloadCharacterData(id: string, state: Signal<characterD
   const signal = controller.signal;
   fetchInProgress = true;
   try{
-    const data = await fetch(`http://localhost:3000/character/${id}`, {signal});
+    // const data = await fetch(`http://localhost:3000/character/${id}`, {signal});
     // const data = await fetch(`https://lro-2-alpha-backend-production.up.railway.app/character/${id}`);
+    const data = await fetch(`fu-temporaty-backend-production.up.railway.app/character/${id}`, {signal});
     const jsoned = await data.json();
     fetchInProgress = false;
     const prev = state.value.map(val => { return {...val}});
