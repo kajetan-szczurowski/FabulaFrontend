@@ -33,7 +33,7 @@ export default function About() {
           <BatchesComponent data = {dataBatches[2]}/>
           <BatchesComponent data = {dataBatches[3]}/>
           {/* <BatchesComponent data = {dataBatches[4]}/> */}
-          <BatchesComponent data = {unorganizedData}/>
+          <BatchesComponent data = {unorganizedData} allowDeletion = {true}/>
 
         <button className='character-box-button main-text' onClick = {handleAddNewClick}>{translate('Add new')}</button>
 
@@ -71,10 +71,10 @@ export default function About() {
 
 
 
-function BatchesComponent({data}: {data: characterBasicValueType[]}){
+function BatchesComponent({data, allowDeletion = false}: {data: characterBasicValueType[], allowDeletion? : boolean}){
   return(
     <>
-         <ListWithHeader data = {data} attributeGroup='about' maxLength={100}  disableDelete = {true}/>
+         <ListWithHeader data = {data} attributeGroup='about' maxLength={100}  disableDelete = {!allowDeletion}/>
          <hr className='about-hr'/>
     </>
   )

@@ -1,9 +1,13 @@
 import { characterBasicValueType } from "../../types/characterTypes";
 import EditableAttribute from "./CharacterManipulation/EditableAttribute";
+import { translate } from "../../Dictionaries/translate";
 
 export default function ListWithHeader({header, data, maxLength, attributeGroup, sectionClassName = 'list-section', disableDelete = false, liClass = 'text-left'}: props) {
   const DEFAULT_MAX_INPUT_LENGTH = 30;
   const MAX_INPUT_LENGTH_FOR_LABEL = 100;
+  const editBlocked = [['pronounce', 'identity', 'origin', 'theme'], ['level', 'classes'], 
+  ['agility', 'power', 'will', 'inside'], ['fabulaPoints', 'initiative', 'armor', 'magicalDefence'] ].flat();
+
   if (!data) return(<></>)
   if (!Array.isArray(data)) return(<></>)
 
@@ -27,9 +31,13 @@ export default function ListWithHeader({header, data, maxLength, attributeGroup,
 
   function Content({text, label, socketOrderSuffix, id, customMaxLength}: contentProps){
     const socketOrder = {attributesGroup: attributeGroup, attributeID: id, attributeSection: socketOrderSuffix};
+    const editable = !editBlocked.includes(text);
     const length = customMaxLength || maxLength || DEFAULT_MAX_INPUT_LENGTH;
     return(
-      <EditableAttribute text = {text} maxLength={length} title = {label} {...socketOrder} disableDelete = {disableDelete} />
+      <>
+        {editable && <EditableAttribute text = {text} maxLength={length} title = {label} {...socketOrder} disableDelete = {disableDelete} />}
+        {!editable && <span >{translate(text)} </span>}
+      </>
     )
   }
 }
