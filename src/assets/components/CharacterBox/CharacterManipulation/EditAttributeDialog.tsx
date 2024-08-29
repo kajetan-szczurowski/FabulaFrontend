@@ -39,9 +39,13 @@ export default function EditAttributeDialog() {
     const toDeleteLabel = editSignal.value.title || editSignal.value.text.slice(0, LABEL_LENGTH_IF_TITLE_OMITTED);
 
     return(
-        <dialog ref = {dialogRef} className = 'character-box-button'>
-            <div className='edit-dialog'>
-            <h2>{translate(editSignal.value.title || '')}</h2>
+        <dialog ref = {dialogRef} className = 'character-box-button padding0'>
+            <div className='edit-dialog '>
+                <div className = 'closing-button-box closing-dialog-edit'>
+                    <button onClick = {handleCloseClick}>&times;</button>
+                </div>
+                
+                <h2>{translate(editSignal.value.title || '')} </h2>
 
             <div className='edit-dialog-inside' ref = {primaryDivRef}>
                 <form id = 'character-edit-form' onSubmit={handleSubmit}>
@@ -69,6 +73,10 @@ export default function EditAttributeDialog() {
         </dialog>
     )
 
+    function handleCloseClick(){
+        if (!dialogRef.current) return;
+        if (dialogRef.current.open) dialogRef.current.close();
+    }
 
     function showDeleteQuestion(e: React.FormEvent) {
         e.preventDefault();

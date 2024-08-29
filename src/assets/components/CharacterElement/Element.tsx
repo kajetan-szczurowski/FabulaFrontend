@@ -60,7 +60,7 @@ export default function Element({investedPoints, label, id, description, attribu
     return(
         <div>
     <       button className="character-box-clickable character-box-button" onClick = {handleMinusClick}>-</button>
-            <span>{investedPoints}</span>
+            <span className='invested-points'>{investedPoints}</span>
             <button className="character-box-clickable character-box-button" onClick = {handlePlusClick}>+</button>
         </div>
     )

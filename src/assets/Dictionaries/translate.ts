@@ -23,7 +23,7 @@ function getDictionary(): {[key: string]: string} {
         "classes": "klasy",
         "experience": "doświadczenie",
         "fabulapoints": "punkty fabuli",
-        "about": "o postaci",
+        "about": "postać",
         "spells": "zaklęcia",
         "skills": "umiejętności",
         "EQ": "ekwipunek",
