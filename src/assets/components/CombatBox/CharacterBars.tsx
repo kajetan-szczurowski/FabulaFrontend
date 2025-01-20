@@ -6,6 +6,7 @@ import { characterMapSignal } from '../CharacterBox/CharacterBox';
 import { useSocket } from '../../providers/SocketProvider';
 import { ChangeEvent } from 'react';
 import { translate } from '../../Dictionaries/translate';
+import { useRef } from 'react';
 
 export default function CharacterBars() {
     const bars = characterBarsState.value;
@@ -13,11 +14,12 @@ export default function CharacterBars() {
     const userIsGM = usersDataState.value.isGM;
     const characters = characterMapSignal.value;
     const socket = useSocket();
+    const sectionRef = useRef<HTMLDivElement>(null);
 
     return(
         <>
-            <h2 className="relation-text">{translate('party')}:</h2>
-            <section className = 'hp-list'>
+            <h2 onDoubleClick={handleDoubleClick} className="relation-text">{translate('party')}:</h2>
+            <section ref = {sectionRef} className = 'hp-list'>
             {bars.map(bar => {
                 const authorized = checkAuthorization(bar.id, bar.name);
                 return(
@@ -38,6 +40,12 @@ export default function CharacterBars() {
             {userIsGM && <DropDownList options={Object.keys(characters)} changeHandler = {handleSelectChange}/>}
         </>
     )
+
+    function handleDoubleClick(e: React.MouseEvent){
+        e.preventDefault();
+        if (!sectionRef.current) return;
+        sectionRef.current.classList.toggle('hp-list-displayer-mode');
+    }
 
     function handleSelectChange(e: ChangeEvent<HTMLSelectElement>){
         if (e.target.value === 'dummy') return;

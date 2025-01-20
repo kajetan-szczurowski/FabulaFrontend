@@ -25,6 +25,8 @@ main{
 
 #left-side{
   width: 55%;
+  resize: horizontal;
+  overflow-x: auto;
 }
 
 #character-box{
@@ -525,6 +527,7 @@ h1{
   overflow-y: auto;
   overflow-x: hidden;
   color: var(--main-text-color);
+  resize: both;
 }
 
 #chat{
@@ -664,6 +667,11 @@ h1{
   justify-content: flex-start;
   margin-bottom: 2rem;
 
+}
+
+.hp-list-displayer-mode{
+  display: grid;
+  grid-template-columns:  1fr 1fr;
 }
 
 .pointer{
@@ -966,6 +974,7 @@ span[class^="rolls-family-visibility-"]{
 
   #combat-box{
     margin-top: 5rem;
+    resize: both;
   }
   
 

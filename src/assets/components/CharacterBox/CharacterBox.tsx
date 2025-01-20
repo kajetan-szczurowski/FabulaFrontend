@@ -12,6 +12,7 @@ import { useSocket } from '../../providers/SocketProvider';
 import { translate } from '../../Dictionaries/translate';
 import CharacterWindow from './CharacterWindow';
 import Relations from './Relations';
+import { displayerMode } from '../../../App';
 
 const chosenCharacterStorageKey = 'lets-roll-one-chosenID';
 const charactersMapStorageKey = 'lets-roll-one-charactersMap';
@@ -63,6 +64,8 @@ export default function CharacterBox() {
       downloadCharacterData(chosenCharacter.value, charactersState);
       if (!firstDownloadComplete.current) firstDownloadComplete.current = true;
     }
+
+    if (displayerMode.value) return <></>
 
 
   return (

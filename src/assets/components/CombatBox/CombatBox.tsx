@@ -26,9 +26,10 @@ export default function CombatBox() {
   socket.on('character-bars', (newBars: characterBarType[]) => characterBarsState.value = newBars);
 
 
-
   return(
-    <section id = 'combat-box'>
+    // <section id = 'combat-box' className = {displayerMode.value? 'displayer-mode-main-box' : ''}>
+    <section id = 'combat-box' >
+
       <Navigation/>
       {currentWindow === 'clocks' && <Clocks/>}
       {currentWindow === 'party' && <CharacterBars/>}

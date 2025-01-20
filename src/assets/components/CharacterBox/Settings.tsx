@@ -4,6 +4,7 @@ import ColorPicker from '../ColorPicker';
 
 const APP_SETTINGS_STEPS_SOUND = 'LRO-application-settings-steps';
 export const stepSounds = signal(defaultStepsSound());
+import { displayerMode } from '../../../App';
 
 
 export default function Settings() {
@@ -16,8 +17,19 @@ export default function Settings() {
             {/* <button onClick = {handleClick} className= {'character-box-button character-box-clickable'}> {buttonText} </button> */}
             <ColorPicker/>
           </div>
+          <div>
+            <label> Turn on displayer mode (only way to reverse this is refreshing the page!)</label>
+            <input type = 'checkbox' onClick={handleDisplayerModeClick} />
+          </div>
         </dialog>
     )
+
+    function handleDisplayerModeClick(){
+      if (!dialogRef.current) return;
+      dialogRef.current.close();
+      displayerMode.value = true;
+
+    }
 
     // function handleClick(){
     //   stepSounds.value = stepSounds.value? 0: 1;
